@@ -1,7 +1,6 @@
 <template>
   <div class="detail-page">
     <div class="detail-header bg-img-ani">
-      <!-- :style="`background:url(${articleItem.image}) no-repeat;background-size:100% auto;`" -->
       <h1>{{ articleItem.title }}</h1>
       <span class="detail-avatar">作者：{{ articleItem.avatar }}</span>
       <span class="detail-avatar">
@@ -9,53 +8,73 @@
           <span class="detail-tag">标签：{{ item.tag }}</span>
         </span>
       </span>
-      <span class="detail-date">发布时间：{{ articleItem.updated }}</span>
+      <span class="detail-date">发布时间：{{ time }}</span>
     </div>
     <div class="detail-body">
       <div class="detail-left">
         <div class="markdown-body">
+          <loading v-if="!articleItem.body" />
           <!-- v-html="code" -->
           <!-- eslint-disable-next-line vue/no-v-html -->
-          <div ref="content" v-html="code"></div>
+          <div v-else ref="content" v-html="code"></div>
         </div>
       </div>
       <div class="detail-aside">
         <h3>目录</h3>
+        <div v-if="!articleItem.toc">亲，正在加载中。。。</div>
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div class="detail-toc" v-html="toc"></div>
+        <div v-else class="detail-toc" v-html="toc"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import axios from 'axios'
-import { onMounted, ref } from '@nuxtjs/composition-api'
+import {
+  onMounted,
+  ref,
+  computed,
+  useContext,
+  Ref,
+} from '@nuxtjs/composition-api'
 import { tocObj, useTitle } from '@/compositions/usetitle'
 import 'highlight.js/styles/atom-one-dark.css'
 import '@/assets/css/_highlight.scss'
+import { timeFormat } from '@/plugins/timeFormat'
+import { Article } from '@/types'
+import Loading from '~/components/Loading.vue'
 
 export default {
   name: 'ArticleDetail',
+  components: { Loading },
   setup() {
-    const articleItem = ref({})
+    const articleItem = ref({} as Ref<Article>)
     const code = ref('')
     const toc = ref('')
 
+    const { $axios, params } = useContext()
+
     onMounted(() => {
-      axios
-        .get('http://api.loner.shop/web/api/article/606d15469987439c4dd2d62c')
+      $axios
+        .get(`article/${params.value.id}`)
         .then((res) => {
-          articleItem.value = res.data
-          if (res.data.body) {
-            code.value = useTitle(res.data.body)
-            res.data.toc = tocObj.toHTML()
-            toc.value = res.data.toc
+          if (res.status === 200) {
+            articleItem.value = res.data
+            if (res.data.body) {
+              code.value = useTitle(res.data.body)
+              res.data.toc = tocObj.toHTML()
+              toc.value = res.data.toc
+            }
           }
         })
+        .catch((err) => {
+          throw new Error(err)
+        })
     })
-
-    return { articleItem, code, toc }
+    const time = computed(() => {
+      return timeFormat(articleItem.value.created)
+    })
+    return { articleItem, code, toc, time }
   },
 }
 </script>
@@ -98,6 +117,7 @@ export default {
     .detail-left {
       width: 80%;
       .markdown-body {
+        min-height: 600px;
         padding: 50px 40px 20px 40px;
       }
     }
@@ -106,6 +126,7 @@ export default {
       top: 70px;
       width: 20%;
       margin-left: 10px;
+      min-height: 200px;
       background: $color-white;
       h3 {
         text-align: center;

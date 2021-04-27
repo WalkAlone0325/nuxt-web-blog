@@ -6,7 +6,9 @@
         <div>再见 2020，你好 202。</div>
         <div>2021 一切归零，重新起航。</div>
         <div>即便是诸多不顺，但是我相信一切终将安好，归于平静。</div>
-        <span class="content-btn">继续阅读→</span>
+        <span class="content-btn" @click="$router.push('/about')">
+          继续阅读→
+        </span>
       </div>
       <div class="content-img">
         <img src="~/assets/img/微信图片_20201028203827.jpg" alt="" />

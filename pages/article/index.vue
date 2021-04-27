@@ -9,19 +9,122 @@
     </div>
     <div class="content-container">
       <div class="article-list-container">
-        <ArticleCard v-for="i in 8" :key="i" />
+        <Loading v-if="!articleList.length" />
+        <ArticleCard
+          v-for="item in articleList"
+          v-else
+          :key="item._id"
+          :item="item"
+        />
       </div>
-      <div class="article-tag">123</div>
+      <div class="article-tag">
+        <TagSide
+          :total="total"
+          :tags-list="newTagsList"
+          @searchTag="searchTag"
+        />
+      </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import ArticleCard from '@/components/ArticleCard.vue'
+import Loading from '@/components/Loading.vue'
+import TagSide from '@/components/TagSide.vue'
+import { onMounted, Ref, ref, useContext } from '@nuxtjs/composition-api'
+import { Article, TagList } from '~/types'
 
 export default {
   name: 'Article',
-  components: { ArticleCard },
+  components: { ArticleCard, TagSide, Loading },
+  setup() {
+    const newTagsList = ref([]) as Ref<TagList[]>
+    const articleList = ref([]) as Ref<Article[]>
+    const hasMore = ref(false)
+    const total = ref(0)
+    const tag = ref('')
+    const page = ref(1)
+    const size = ref(8)
+    const isRefreshBool = ref(false)
+
+    const { $axios } = useContext()
+
+    const searchTag = (val: string) => {
+      tag.value = val
+      page.value = 1
+      articleList.value = []
+      getArticle()
+    }
+
+    // 获取文章列表
+    const getArticle = async () => {
+      const res = await $axios.get('article', {
+        params: {
+          tag: tag.value,
+          page: page.value,
+          size: size.value,
+        },
+      })
+      articleList.value = articleList.value.concat(res.data.article)
+
+      // console.log(articleList.value)
+      total.value = res.data.total
+      hasMore.value = res.data.hasMore
+      page.value += 1
+      isRefreshBool.value = true
+    }
+
+    const getTag = async () => {
+      const res = await $axios.get('tag')
+      // 处理数据，将两个数组合并并加入标签的文章数
+      const tagsList = res.data.data.tag_lists
+      const numList = res.data.data.num_list
+      tagsList.forEach((item: TagList) => {
+        const temp = numList.find((i: any) => {
+          return i._id === item._id
+        })
+        item.numList = temp == null ? 0 : temp.count
+      })
+      res.data = tagsList.sort((a: TagList, b: TagList) => {
+        return a.numList - b.numList
+      })
+      newTagsList.value = tagsList
+    }
+
+    // 判断滚动条是否到底部，请求新的数据
+    const isRefresh = () => {
+      // 变量scrollTop是滚动条滚动时，距离顶部的距离
+      const scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop
+      // 变量windowHeight是可视区的高度
+      const windowHeight =
+        document.documentElement.clientHeight || document.body.clientHeight
+      // 变量scrollHeight是滚动条的总高度
+      const scrollHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight
+
+      // 滚动条到底部的条件
+      if (
+        scrollTop + windowHeight >= scrollHeight - 200 &&
+        isRefreshBool.value
+      ) {
+        if (hasMore.value) {
+          isRefreshBool.value = false
+          getArticle()
+        }
+      }
+      // console.log(scrollTop, windowHeight, scrollHeight)
+    }
+
+    onMounted(() => {
+      getArticle()
+      getTag()
+      window.addEventListener('scroll', isRefresh, true)
+    })
+
+    return { articleList, searchTag, newTagsList, total }
+  },
 }
 </script>
 
@@ -54,10 +157,9 @@ export default {
       flex-wrap: wrap;
     }
     .article-tag {
-      width: 300px;
-      height: 500px;
+      position: sticky;
       margin-top: 50px;
-      background-color: aquamarine;
+      width: 300px;
     }
   }
 }

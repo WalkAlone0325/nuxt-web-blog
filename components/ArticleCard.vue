@@ -1,30 +1,39 @@
 <template>
-  <nuxt-link custom to="/article/123">
+  <nuxt-link custom :to="`/article/${item._id}`">
     <div class="article-card">
-      <img
-        class="card-img"
-        src="../assets/img/微信图片_20201028203827.jpg"
-        alt=""
-      />
+      <img class="card-img" :src="item.image" :alt="item.title" />
       <div class="card-content">
-        <h4 class="card-title">前端构建新玩法：Vite 上手与思考</h4>
+        <h4 class="card-title">{{ item.title }}</h4>
         <div class="card-desc">
-          Vite 的定义 Vite 是面向现代浏览器的一个更轻、更快的 Web
-          应用开发工具，核心基于 ECMAScript …
+          {{ item.info }}
         </div>
       </div>
       <div class="card-foot">
-        <span>创建时间：2020-11-23</span>
+        <span>创建时间：{{ time }}</span>
       </div>
     </div>
   </nuxt-link>
 </template>
 
 <script lang="ts">
+import { computed, Data } from '@nuxtjs/composition-api'
+import { timeFormat } from '@/plugins/timeFormat'
+
 export default {
   name: 'ArticleCard',
-  setup() {
-    return {}
+  props: {
+    item: {
+      type: Object as any,
+      // eslint-disable-next-line vue/require-valid-default-prop
+      default: {},
+    },
+  },
+  setup(props: Data) {
+    const time = computed(() => {
+      return timeFormat((props.item as any).created)
+    })
+
+    return { time }
   },
 }
 </script>
@@ -35,7 +44,7 @@ a {
 }
 .article-card {
   width: 280px;
-  height: 450px;
+  height: 350px;
   margin-top: 30px;
   margin-right: 15px;
   margin-left: 15px;
@@ -45,15 +54,15 @@ a {
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
-  transition: 0.4s;
+  transition: 0.5s;
   &:hover {
-    box-shadow: 0 0 15px #eee;
+    box-shadow: 0 0 15px #9d7ac7;
+    transition: 0.5s;
     transform: scale(1.04);
-    transition: 0.4s;
   }
   .card-img {
     width: 100%;
-    height: 300px;
+    height: 200px;
     overflow: hidden;
     border-radius: 4px 4px 0 0;
   }

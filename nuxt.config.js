@@ -37,7 +37,9 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: 'http://api.loner.shop/web/api/',
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},

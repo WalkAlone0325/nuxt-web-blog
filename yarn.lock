@@ -1990,6 +1990,21 @@
   dependencies:
     tslib "^2.2.0"
 
+"@vueuse/core@^4.9.0":
+  version "4.9.0"
+  resolved "https://registry.nlark.com/@vueuse/core/download/@vueuse/core-4.9.0.tgz#a0d048654bdf26b9838d5a6b9b33c5182130902d"
+  integrity sha1-oNBIZUvfJrmDjVprmzPFGCEwkC0=
+  dependencies:
+    "@vueuse/shared" "4.9.0"
+    vue-demi latest
+
+"@vueuse/shared@4.9.0":
+  version "4.9.0"
+  resolved "https://registry.nlark.com/@vueuse/shared/download/@vueuse/shared-4.9.0.tgz#efc36ed36a6148b794538675309038bdf3df9701"
+  integrity sha1-78Nu02phSLeUU4Z1MJA4vfPflwE=
+  dependencies:
+    vue-demi latest
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"
@@ -9523,6 +9538,11 @@ vue-client-only@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/vue-client-only/-/vue-client-only-2.0.0.tgz#ddad8d675ee02c761a14229f0e440e219de1da1c"
   integrity sha512-arhk1wtWAfLsJyxGMoEYhoBowM87/i6HLSG2LH/03Yog6i2d9JEN1peMP0Ceis+/n9DxdenGYZZTxbPPJyHciA==
+
+vue-demi@latest:
+  version "0.7.5"
+  resolved "https://registry.npm.taobao.org/vue-demi/download/vue-demi-0.7.5.tgz#88dee7492fc99a0f911ff03fc02c658fa2a79af8"
+  integrity sha1-iN7nSS/Jmg+RH/A/wCxlj6Knmvg=
 
 vue-eslint-parser@^7.1.1, vue-eslint-parser@^7.6.0:
   version "7.6.0"

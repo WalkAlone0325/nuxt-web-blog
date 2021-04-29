@@ -1,5 +1,13 @@
 # nuxt-web-blog
 
+> 基于 vue3 的 composition API + TS 重构 博客，目前在开发中。。。
+
+## 线上查看请访问
+
+[http://www.loner.shop](http://www.loner.shop)
+
+## 代码尚未开发完成，有很多代码组织不够完善...
+
 ## Build Setup
 
 ```bash

@@ -3,7 +3,7 @@
     <div class="content-box">
       <div class="content-desc">
         <h2>2021 年 重新起航</h2>
-        <div>再见 2020，你好 202。</div>
+        <div>再见 2020，你好 2021。</div>
         <div>2021 一切归零，重新起航。</div>
         <div>即便是诸多不顺，但是我相信一切终将安好，归于平静。</div>
         <span class="content-btn" @click="$router.push('/about')">
@@ -66,6 +66,10 @@ export default defineComponent({
       border-radius: 8px;
       // border: mediumblue 1px solid;
       box-shadow: 0px 0px 10px #cacbcd;
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 }

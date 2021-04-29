@@ -2,13 +2,21 @@
   "name": "nuxt-web-blog",
   "version": "1.0.0",
   "private": true,
+  "description": "独行的前端技术博客，记录学习笔记，写技术博客文章，收藏一些大神的文章，收录一些好用的开发工具。",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
+    "prd": "pm2 start npm --name nuxt3-web-blog -- run start",
     "generate": "nuxt generate",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js"
+  },
+  "config": {
+    "nuxt": {
+      "host": "127.0.0.1",
+      "port": "3333"
+    }
   },
   "lint-staged": {
     "*.{js,vue}": "eslint"

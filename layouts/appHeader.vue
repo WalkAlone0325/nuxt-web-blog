@@ -3,7 +3,7 @@
     <header class="basic-header">
       <div class="logo">
         <h3 class="logo-title">Loner</h3>
-        <span class="logo-img">logo</span>
+        <span class="logo-img">独行</span>
       </div>
 
       <div class="menu">
@@ -70,6 +70,8 @@ export default defineComponent({
       display: flex;
       .logo-title {
         line-height: 64px;
+        font-size: 24px;
+        color: #008b8b;
       }
       .logo-img {
         margin-left: 10px;
@@ -97,7 +99,7 @@ export default defineComponent({
             left: 12px;
             width: 12px;
             height: 12px;
-            border: 3px solid #b351c2;
+            border: 3px solid #008b8b;
             border-width: 0 0 3px 3px;
             transition: 0.5s;
             opacity: 0;
@@ -105,7 +107,7 @@ export default defineComponent({
           &:hover {
             color: #fff;
             transition: 0.5s;
-            background: #b351c2;
+            background: #008b8b;
             cursor: pointer;
           }
           &:hover::before {
@@ -120,7 +122,7 @@ export default defineComponent({
             right: 12px;
             width: 12px;
             height: 12px;
-            border: 3px solid #b351c2;
+            border: 3px solid #008b8b;
             border-width: 3px 3px 0 0;
             transition: 0.5s;
             opacity: 0;
@@ -194,7 +196,7 @@ export default defineComponent({
 .router-link-active {
   color: #fff;
   transition: 0.5s;
-  background: #b351c2;
+  background: #008b8b;
   cursor: pointer;
 }
 </style>

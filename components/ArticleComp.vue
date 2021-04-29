@@ -12,12 +12,13 @@
         :key="item._id"
         :item="item"
       />
+      <i></i><i></i><i></i><i></i><i></i>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, onMounted, Ref, useContext } from '@nuxtjs/composition-api'
+import { ref, Ref, useContext, useFetch } from '@nuxtjs/composition-api'
 import ArticleCard from './ArticleCard.vue'
 import Loading from './Loading.vue'
 
@@ -30,23 +31,37 @@ export default {
   setup() {
     const articleList: Ref = ref([])
     const page = ref(1)
-    const size = ref(10)
+    const size = ref(12)
     const { $axios } = useContext()
-    // 获取文章列表
-    const getArticle = async () => {
-      const res = await $axios.get('article', {
-        params: {
-          page: page.value,
-          size: size.value,
-        },
-      })
-      res.data.article.forEach((val: any) => {
-        articleList.value = [...articleList.value, val]
-      })
-    }
-    onMounted(() => {
-      getArticle()
+
+    useFetch(async () => {
+      await $axios
+        .get('article', {
+          params: {
+            page: page.value,
+            size: size.value,
+          },
+        })
+        .then((res) => {
+          articleList.value = res.data.article
+        })
     })
+
+    // 获取文章列表
+    // const getArticle = async () => {
+    //   const res = await $axios.get('article', {
+    //     params: {
+    //       page: page.value,
+    //       size: size.value,
+    //     },
+    //   })
+    //   res.data.article.forEach((val: any) => {
+    //     articleList.value = [...articleList.value, val]
+    //   })
+    // }
+    // onMounted(() => {
+    //   getArticle()
+    // })
 
     return { articleList }
   },
@@ -60,13 +75,14 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 70px;
+    margin-top: 50px;
     .article-title {
       font-size: 40px;
       font-weight: normal;
     }
     .article-desc {
       font-size: 18px;
+      margin-top: 20px;
       color: #877a82;
     }
   }
@@ -74,8 +90,12 @@ export default {
     width: 80%;
     margin: 0 auto;
     display: flex;
-    // justify-content: space-between;
     flex-wrap: wrap;
+    justify-content: center;
+    i {
+      width: 240px;
+      margin-right: 30px;
+    }
   }
 }
 </style>

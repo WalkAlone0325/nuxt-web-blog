@@ -5,13 +5,14 @@
         v-if="btnFlag"
         class="back-top iconfont icon-huidaodingbu"
         @click="backTop"
-      />
+      ></i>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'BackTop',
   data() {
     return {
       btnFlag: false,
@@ -20,6 +21,7 @@ export default {
   mounted() {
     window.addEventListener('scroll', this.scrollToTop)
   },
+
   destroyed() {
     window.removeEventListener('scroll', this.scrollToTop)
   },
@@ -41,11 +43,8 @@ export default {
         document.documentElement.scrollTop ||
         document.body.scrollTop
       this.scrollTop = scrollTop
-      if (this.scrollTop > 60) {
-        this.btnFlag = true
-      } else {
-        this.btnFlag = false
-      }
+      if (this.scrollTop > 60) this.btnFlag = true
+      else this.btnFlag = false
     },
   },
 }
@@ -54,7 +53,7 @@ export default {
 <style lang="scss" scpoed>
 .contact-info {
   position: fixed;
-  top: 80%;
+  top: 85%;
   right: 10px;
   z-index: 998;
   .back-top {

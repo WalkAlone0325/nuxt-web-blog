@@ -3,8 +3,8 @@
     <div class="banner-container">
       <!-- <img src="~/assets/img/20170917.jpg" alt="banner" /> -->
       <div class="info">
-        <h2>独行</h2>
-        <span>平时记录的笔记和文章</span>
+        <h2 style="font-size: 28px; color: #fff">独行</h2>
+        <span style="margin-top: 20px; color: #fff">平时记录的笔记和文章</span>
       </div>
     </div>
     <div class="content-container">
@@ -32,7 +32,13 @@
 import ArticleCard from '@/components/ArticleCard.vue'
 import Loading from '@/components/Loading.vue'
 import TagSide from '@/components/TagSide.vue'
-import { onMounted, Ref, ref, useContext } from '@nuxtjs/composition-api'
+import {
+  onBeforeUnmount,
+  onMounted,
+  Ref,
+  ref,
+  useContext,
+} from '@nuxtjs/composition-api'
 import { Article, TagList } from '~/types'
 
 export default {
@@ -123,6 +129,10 @@ export default {
       window.addEventListener('scroll', isRefresh, true)
     })
 
+    onBeforeUnmount(() => {
+      window.removeEventListener('scroll', isRefresh)
+    })
+
     return { articleList, searchTag, newTagsList, total }
   },
 }
@@ -150,7 +160,7 @@ export default {
     width: 80%;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     .article-list-container {
       flex: 1;
       display: flex;

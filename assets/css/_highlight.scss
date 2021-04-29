@@ -4,7 +4,7 @@
   padding: 10px 20px;
   background: #fff;
   border-radius: 5px;
-  // 改变网页高亮文本
+  /* 改变网页高亮文本 */
   ::selection {
     background-color: #000 !important;
     color: #fff !important;
@@ -166,13 +166,4 @@
     color: #24292e;
     list-style: initial !important;
   }
-  // .v-note-panel {
-  //     overflow: visible!important;
-  // }
-  // .v-note-navigation-wrapper {
-  //     right: -270px!important;
-  //     bottom: initial!important;
-  //     padding-bottom: 30px;
-  //     width: 250px!important;
-  // }
 }

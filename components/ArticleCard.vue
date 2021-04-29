@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="card-foot">
-        <span>创建时间：{{ time }}</span>
+        <span>更新时间：{{ time }}</span>
       </div>
     </div>
   </nuxt-link>
@@ -30,7 +30,7 @@ export default {
   },
   setup(props: Data) {
     const time = computed(() => {
-      return timeFormat((props.item as any).created)
+      return timeFormat((props.item as any).updated)
     })
 
     return { time }
@@ -43,7 +43,7 @@ a {
   text-decoration: none;
 }
 .article-card {
-  width: 280px;
+  width: 240px;
   height: 350px;
   margin-top: 30px;
   margin-right: 15px;
